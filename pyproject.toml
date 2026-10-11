@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "tg-socks"
+name = "tgwsapiproxy"
 version = "0.1.0"
 description = "Локальный SOCKS5/HTTP-прокси через Cloudflare Worker — доступ к Telegram Bot API из РФ без VPN"
 readme = "README.md"
@@ -32,14 +32,14 @@ aiogram = ["aiogram>=3.0", "aiohttp-socks>=0.8"]
 ptb = ["python-telegram-bot>=20", "httpx[socks]>=0.27"]
 
 [project.scripts]
-tg-socks = "tg_socks.cli:main"
+tgwsapiproxy = "tgwsapiproxy.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/USER/tg-socks"
-Issues = "https://github.com/USER/tg-socks/issues"
+Homepage = "https://github.com/winchanii/TgWsApiProxy"
+Issues = "https://github.com/winchanii/TgWsApiProxy/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/tg_socks"]
+packages = ["src/tgwsapiproxy"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/tg_socks", "README.md", "LICENSE", "worker.js"]
+include = ["src/tgwsapiproxy", "README.md", "LICENSE", "worker.js"]

@@ -1,4 +1,4 @@
-"""CLI-точка входа для tg-socks."""
+"""CLI-точка входа для tgwsapiproxy."""
 
 from __future__ import annotations
 
@@ -6,12 +6,12 @@ import argparse
 import asyncio
 import sys
 
-import tg_socks
+import tgwsapiproxy
 
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="tg-socks",
+        prog="tgwsapiproxy",
         description=(
             "Локальный SOCKS5/HTTP-прокси через Cloudflare Worker — "
             "доступ к Telegram Bot API из РФ без VPN."
@@ -74,15 +74,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     cfg = build_parser().parse_args(argv)
-    tg_socks._VERBOSE = cfg.verbose
+    tgwsapiproxy._VERBOSE = cfg.verbose
 
     if cfg.allow and "api.telegram.org" not in cfg.allow:
-        tg_socks.log("внимание: api.telegram.org не в белом списке — бот работать не будет")
+        tgwsapiproxy.log("внимание: api.telegram.org не в белом списке — бот работать не будет")
 
     try:
-        asyncio.run(tg_socks.amain(cfg))
+        asyncio.run(tgwsapiproxy.amain(cfg))
     except KeyboardInterrupt:
-        tg_socks.log("\nостановлено")
+        tgwsapiproxy.log("\nостановлено")
     return 0
 
 

@@ -1,12 +1,13 @@
-# tg-socks
+# tgwsapiproxy
 
 Локальный прокси для **Telegram-ботов** в РФ. Тот же приём, что в
 [tg-ws-proxy](https://github.com/Flowseal/tg-ws-proxy), но вместо MTProto
 Telegram Desktop — обычный HTTPS Bot API.
 
 ```
-Telegram Bot ──► tg-socks (127.0.0.1) ──► Cloudflare Worker ──► api.telegram.org
-                   socks5 + http CONNECT      workers.dev
+Telegram Bot ──► tgwsapiproxy ──► Cloudflare Worker ──► api.telegram.org
+                  127.0.0.1        workers.dev
+                  socks5 + http CONNECT
 ```
 
 DPI на участке между тобой и Cloudflare видит только `SNI=xxx.workers.dev`.
@@ -19,16 +20,26 @@ DPI на участке между тобой и Cloudflare видит толь�
 
 ## Установка
 
+С PyPI:
+
 ```bash
-pip install tg-socks
+pip install tgwsapiproxy
+```
+
+Прямо из репозитория (без публикации на PyPI):
+
+```bash
+pip install "git+https://github.com/winchanii/TgWsApiProxy"
 ```
 
 Опционально, вместе с библиотеками ботов:
 
 ```bash
-pip install "tg-socks[aiogram]"    # aiogram + aiohttp-socks
-pip install "tg-socks[ptb]"        # python-telegram-bot + httpx[socks]
+pip install "tgwsapiproxy[aiogram]"    # aiogram + aiohttp-socks
+pip install "tgwsapiproxy[ptb]"        # python-telegram-bot + httpx[socks]
 ```
+
+> Пока пакет не опубликован на PyPI, работает только вариант с `git+...`.
 
 ## Настройка Cloudflare Worker
 
@@ -48,7 +59,7 @@ pip install "tg-socks[ptb]"        # python-telegram-bot + httpx[socks]
 ## Запуск
 
 ```bash
-tg-socks --worker-host my-worker-abc123.workers.dev
+tgwsapiproxy --worker-host my-worker-abc123.workers.dev
 ```
 
 Поднимает два входа:
@@ -99,11 +110,11 @@ PTB работает на httpx, у которого HTTP-прокси подд�
 import asyncio
 from aiogram import Bot
 from aiogram.client.session.aiohttp import AiohttpSession
-import tg_socks
+import tgwsapiproxy
 
 async def main():
-    async with tg_socks.run_proxy("my-worker.workers.dev"):
-        session = AiohttpSession(proxy=tg_socks.proxy_url())   # http://127.0.0.1:8080
+    async with tgwsapiproxy.run_proxy("my-worker.workers.dev"):
+        session = AiohttpSession(proxy=tgwsapiproxy.proxy_url())   # http://127.0.0.1:8080
         bot = Bot(token="123456:ABC", session=session)
         await dp.start_polling(bot)
 ```

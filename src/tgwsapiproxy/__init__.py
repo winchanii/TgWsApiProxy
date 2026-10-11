@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tg-socks — локальный SOCKS5-прокси, который заворачивает трафик в WebSocket
+tgwsapiproxy — локальный SOCKS5-прокси, который заворачивает трафик в WebSocket
 и отправляет через Cloudflare Worker к Telegram. Обход блокировки без VPN.
 
     Telegram Bot  ──socks5://127.0.0.1:1080──▶  Cloudflare Worker  ──▶ api.telegram.org
@@ -572,7 +572,7 @@ async def start_proxy(cfg) -> list:
             reuse_address=True,
         )
     ]
-    log(f"tg-socks: SOCKS5 на {cfg.listen_host}:{cfg.listen_port}")
+    log(f"tgwsapiproxy: SOCKS5 на {cfg.listen_host}:{cfg.listen_port}")
 
     if cfg.http_port:
         servers.append(
@@ -583,9 +583,9 @@ async def start_proxy(cfg) -> list:
                 reuse_address=True,
             )
         )
-        log(f"tg-socks: HTTP CONNECT на {cfg.listen_host}:{cfg.http_port}")
+        log(f"tgwsapiproxy: HTTP CONNECT на {cfg.listen_host}:{cfg.http_port}")
 
-    log(f"tg-socks: Worker {cfg.worker_host}, разрешено: {', '.join(cfg.allow) or 'всё'}")
+    log(f"tgwsapiproxy: Worker {cfg.worker_host}, разрешено: {', '.join(cfg.allow) or 'всё'}")
     return servers
 
 

@@ -1,10 +1,10 @@
 __pycache__/
 *.py[cod]
+*.egg-info/
 .venv/
 venv/
 build/
 dist/
-*.egg-info/
 *.log
 cert.pem
 key.pem
