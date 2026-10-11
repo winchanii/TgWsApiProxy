@@ -145,6 +145,27 @@ Cloudflare соединяется с Telegram от своего имени, уж
 
 ---
 
+## Публикация на PyPI
+
+Публикация привязана к GitHub Releases — токен API не нужен, авторизацию
+делает GitHub через OIDC.
+
+1. На <https://pypi.org/manage/account/publishing/> добавь издателя:
+   - Owner: `winchanii`
+   - Repository name: `TgWsApiProxy`
+   - Workflow name: `publish.yml`
+   - Environment name: `pypi`
+2. В GitHub: `Settings` → `Environments` → создай окружение `pypi`
+3. Создай релиз: `Releases` → `Draft a new release` → тег `v0.1.0` → `Publish release`
+
+Workflow соберёт пакет, проверит метаданные через `twine check` и загрузит
+артефакты на PyPI.
+
+> Имя `tgwsapiproxy` на PyPI необратимо. Перед первой публикацией убедись,
+> что оно свободно: <https://pypi.org/project/tgwsapiproxy/> должен вернуть 404.
+
+---
+
 ## Ограничения и риски
 
 **Надёжность ~85–95% на бесплатном тарифе Workers.** `connect()` от Worker'а
